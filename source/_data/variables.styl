@@ -1,0 +1,29 @@
+// Custom styles.
+
+//设置标题的主题样式
+#header > div > div > div.site-meta > div > a {
+	background:transparent;
+}
+.site-title {
+	color:black;
+}
+
+//github标签居于最高层
+.github-corner *{
+	z-index:100;
+}
+
+//设置博客内容有阴影边框 
+body{
+	 z-index:9;
+}
+.post {
+	margin-bottom: 100px;
+	padding: 25px;
+	-webkit-box-shadow: 0 0 14px rgba(202,203,203,1);
+	-moz-box-shadow: 0 0 14px rgba(202,203,204,1);
+	background: #fff;
+}
+#posts footer > div{
+	display:none;
+}
