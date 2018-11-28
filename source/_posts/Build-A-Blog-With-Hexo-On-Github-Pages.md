@@ -137,31 +137,6 @@ $ hexo g && hexo s
 http://localhost:4000/
 ```
 
-#### Hexo 的 Github 上传
-
-1. 打开配置文件_config.yml，拉至最后，修改deploy项为如下，uesrname为你自己的github名
-
-   ```
-   deploy:
-     type: git
-     repository: git@github.com:username/username.github.io.git 
-     branch: master
-   ```
-
-2. 安装上传的插件
-
-   ```bash
-   $ npm install hexo-deployer-git --save
-   ```
-
-3. 之后只要键入以下代码即可将生成的静态网页传至github
-
-   ```bash
-   $ hexo d
-   ```
-
-   注意：当你上传完成后会发现github上面master分支内容都被清空了，如果你需要保留如README之类的文件，将其放到source文件夹下，因为生成静态页面的时候，source文件夹下的东西都会复制一份到上传内容的public文件夹。
-
 ## 主题安装
 
 ### 主题推荐
@@ -195,6 +170,20 @@ $ hexo new page tags
 $ hexo new page categories
 ```
 
+键入以上部分后，会在your-hexo-site/source文件夹中生成categories和tags文件夹，里面各有一个index.md，打开该文件，在categories文件夹中的index.md文件最后加入一行
+
+```markdown
+type: "categories"
+```
+
+同理，在tags文件夹中的index.md文件最后加入一行
+
+```markdown
+type: "tags"
+```
+
+如果不修改以上文件，则在分类和标签页面看不到任何内容。
+
 
 
 ### 常用插件推荐
@@ -202,6 +191,73 @@ $ hexo new page categories
 1. 文章字数和时间的统计：https://github.com/theme-next/hexo-symbols-count-time
 2. 本地文章搜索：https://github.com/theme-next/hexo-generator-searchdb
 3. 首页隐藏不想展示的文章：https://github.com/Jamling/hexo-generator-index2
+
+## 利用分支便携管理Hexo
+### Hexo 的 Github 上传
+
+1. 打开配置文件_config.yml，拉至最后，修改deploy项为如下，uesrname为你自己的github名
+
+   ```
+   deploy:
+     type: git
+     repository: git@github.com:username/username.github.io.git 
+     branch: master
+   ```
+
+2. 安装上传的插件
+
+   ```bash
+   $ npm install hexo-deployer-git --save
+   ```
+
+3. 之后只要键入以下代码即可将生成的静态网页传至github
+
+   ```bash
+   $ hexo d
+   ```
+
+   注意：当你上传完成后会发现github上面master分支内容都被清空了，如果你需要保留如README之类的文件，将其放到source文件夹下，因为生成静态页面的时候，source文件夹下的东西都会复制一份到上传内容的public文件夹。
+
+### 建立一个新的分支用来管理
+
+```bash
+// git初始化并和远程仓库建立连接
+git init
+git remote add origin https://github.com/用户名/仓库名.git
+
+// 新建hexo分支用来管理
+git checkout -b hexo
+
+// 上传到远程仓库
+git add .
+git commit -m ""
+git push origin hexo
+```
+
+### 新环境下配置
+
+1. 安装node.js和git。
+2. 克隆远程仓库到本地，并进入本地仓库文件夹。
+3. 安传hexo并安装依赖库
+
+```bash
+$ npm install hexo
+$ npm install
+// 拉取最新的文件到本地
+$ git pull
+```
+
+4. 写完文章后
+
+```bash
+$ git add .
+$ git commit -m "descrption"
+$ git push origin hexo
+$ hexo clean && hexo g && hexo d
+```
+
+
+
 
 ## Hexo的常用命令
 
