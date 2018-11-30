@@ -245,7 +245,8 @@ $ npm install
 $ git pull
 ```
 
-4. 写完文章后
+4. 重新安装主题
+5. 写完文章后
 
 ```bash
 $ git add .
