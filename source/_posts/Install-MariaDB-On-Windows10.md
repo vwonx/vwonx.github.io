@@ -4,6 +4,9 @@ date: 2018-12-01 10:21:39
 tags: ["Database","MariaDB"]
 categories: "数据库"
 ---
+
+![title.png](https://i.loli.net/2018/12/01/5c02030d7bdcd.png)
+
 发现大多数博客，在windows10上安装MariaDB都需要自行拷贝安装目录下的配置文件，然而MariaDB-10.3.11的安装目录下并不存在原先版本的配置文件。故根据官网的说明进行了安装，本文记录安装的过程。
 
 <!--more-->
