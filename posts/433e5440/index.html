@@ -96,10 +96,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="http://vwonx.github.io/tags/Hello-World/">
+  <link rel="canonical" href="http://vwonx.github.io/posts/433e5440/">
   <title>
     
-      Blog | Vwonx
+      Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决 - Blog | Vwonx
     
   </title>
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -307,9 +307,10 @@
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/imgs/header/archive_bg.jpg'); */
+       /*post*/
+        
+          background-image: var(--intro-header-background-image-url-post-default);
+        
       
     }
 
@@ -327,10 +328,42 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="site-heading">
-            <h1>Vwonx Blog</h1>
-            <!--<hr class="small">-->
-            <span class="subheading">求知若饥，虚心若愚</span>
+          <div class="post-heading">
+            <div class="tags">
+              
+              <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+              
+            </div>
+            <h1>Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决</h1>
+            <h2 class="subheading">记录使用virtual box安装ubuntu 20.04 server过程中发生的问题及解决过程。</h2>
+            <span class="meta">
+              Posted by Vwonx on
+              2022-05-09
+            </span>
+
+
+            
+            <!-- WordCount start -->
+            <div class="blank_box"></div>
+            <span class="meta">
+              Estimated Reading Time <span class="post-count">5</span> Minutes
+            </span>
+            <div class="blank_box"></div>
+            <span class="meta">
+              Words <span class="post-count">1.5k</span> In Total
+            </span>
+            <div class="blank_box"></div>
+            <!-- WordCount end -->
+            
+            
+            <!-- 不蒜子统计 start -->
+            <span class="meta" id="busuanzi_container_page_pv">
+              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+            </span>
+            <!-- 不蒜子统计 end -->
+            
+
+
           </div>
           
         </div>
@@ -371,210 +404,171 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Main Content -->
-<div class="container">
-  <div class="row">
-    
+		<!-- Modify by Yu-Hsuan Yen -->
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <!-- Post Container -->
+      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-    <!-- USE SIDEBAR -->
-    <!-- Post Container -->
-    <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
+        <p>由于习惯了使用云开发机进行项目的开发，因此为了模拟云开发机的环境，我通常会使用虚拟机安装一个Linux系统作为云开发机，并利用虚拟机克隆机制做备份、多开发环境部署等操作。</p>
+<p>近日，原先虚拟机上安装的CentOS 8发现无法通过yum包管理来安装软件。后经查询，发现CentOS 8已经结束了生命周期（EOL），社区已不再维护。所以如果需要使用yum包来下载软件，需要更新源。（例如替换为阿里源）</p>
+<p>出于上述原因，再加考虑到好像ubuntu 20.04的版本自己没有用过，所以打算直接将旧的CentOS替换为Ubuntu。我一般的步骤如下：</p>
+<ol>
+<li>先安装一台虚拟机（命名为A），并在安装完成后进行部分通用型软件的安装，如 “net-tools”。</li>
+<li>在虚拟机A安装好通用软件后，将该状态创建一个快照。</li>
+<li>以步骤2中的快照作为蓝本，后续全部的开发机以这个蓝本为基础进行克隆，并部署对应所需的环境。</li>
+</ol>
+<p>上述三个步骤可以保证，就算我开发机的环境崩溃了，我也不需要重新安装一遍系统。而是可以直接再以快照作为蓝本克隆出一个新的虚拟机作为开发机。</p>
+<p>接着，要解决的另一个问题，就是虚拟机IP分配的问题。由于virtual box默认的网卡使用的是<strong>NAT</strong>模式，该模式的特点是简单，不需要任何配置，就可以使虚拟机连上互联网。但是弊端是ip是动态的，会发生变化。而我的虚拟机是作为开发机使用的，平常均是vscode+ssh插件实现与开发机之间的连接。因此，这种会发生变化的ip对于作为开发机的虚拟机来说是极为不便的。</p>
+<p>为了解决上述问题，我的做法通常是给虚拟机再加一块网卡，并设置为<strong>Host-only</strong>模式，这样后续的ip都会是固定的。这种做法在使用CentOS作为系统的时候，没发生过任何问题，即在克隆快照后也会默认分配一个新的ip地址。但是在换到ubuntu后，依次发现了两个问题。下面对问题进行记录，并附上解决方法。</p>
+<h1>问题一：系统找不到第二块Host-only模式的网卡</h1>
+<h2 id="问题描述">问题描述</h2>
+<p>在安装完系统后，添加第二块<strong>Host-only</strong>模式的显卡。在进入系统后，发现依旧只有旧的<strong>NAT</strong>模式网卡。</p>
+<h2 id="问题复现">问题复现</h2>
+<p>经过多次系统安装后发现，如果是在给虚拟机安装系统前就添加了网卡，那么在安装完成后不会出现该问题。该问题发生的情况是在安装完系统后，再添加网卡。</p>
+<h2 id="问题定位">问题定位</h2>
+<p>在系统里查看网络设备（执行 ipconfig -a），发现确实有这个网卡，但是ip地址是空的。想到是否可能是该网络没有激活。在执行下述命令临时启动网卡并进行ip分配后，发现问题解决，由此问题定位完成。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a <span class="comment"># 这一步仅是查看并记录没有开启的网卡的编号</span></span><br><span class="line">ifconfig 上一步记录的网卡编号（如enp0s8） up <span class="comment"># 启动网卡</span></span><br><span class="line">dhclient 上一步记录的网卡编号 <span class="comment"># 分配ip</span></span><br></pre></td></tr></table></figure>
+<h2 id="问题解决方法">问题解决方法</h2>
+<p>上述问题定位里的解决方案可以临时解决ip问题，但是并不是永久配置，会在系统重启后会再次失效。永久配置的方法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/netplan/00-installer-config.yaml <span class="comment"># 打开netplan的yaml文件，可能名字会不一样</span></span><br></pre></td></tr></table></figure>
+<p>通常而言，如果在安装系统的过程中没有进行手动ip分配，那么yaml文件的内容大致如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is the network config written by &#x27;subiquity&#x27;</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>很明显可以看到，他并没有配置enp0s8编号的网卡，因此我们只需要将它补上，也直接使用DHCP协议自动分配ip就行。修改后的文件如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is the network config written by &#x27;subiquity&#x27;</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">enp0s8:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>之后重启系统，问题解决。</p>
+<h1>问题二：克隆快照得到的虚拟机ip地址相同</h1>
+<h2 id="问题描述-2">问题描述</h2>
+<p>在进行快照克隆后，本来得到的虚拟机的Host-only网卡应该会分配一个新的ip地址（CentOS是可以的），但是后来发现得到的是一样的ip地址。</p>
+<h2 id="问题复现-2">问题复现</h2>
+<p>对快照进行克隆，就可以复现该问题。</p>
+<h2 id="问题定位-2">问题定位</h2>
+<p>这个问题定位花了比较多的时间，网上一些博客说需要换网卡的MAC地址。但这个显然不行，因为现在版本的virtual box对虚拟机克隆的时候会自动随机分配一个MAC地址。为了验证这个想法，也进行了实验。结果果然如预料一般。那么显然DHCP协议分配ip的时候并不是看MAC地址，那么会不会是以其他的编码作为id呢？抱着这个想法在外网上查找了一番后，见到了如下的一种<a target="_blank" rel="noopener" href="https://forums.virtualbox.org/viewtopic.php?f=6&amp;t=100850#p489404">说法</a>：<br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/ubuntu-vb-problems-record/1.png" alt="1"><br>
+他指出除了MAC地址外，DUID也被用作DHCP的唯一识别id。主要是应对当下MAC地址随机趋势和一些个人隐私安全问题。而Linux系统有些使用machine id作为DUID。看到这里，就明白为什么重新随机MAC地址也无法改变IP地址了。</p>
+<h2 id="问题解决方法-2">问题解决方法</h2>
+<p>知道了原因，那么解决方法就很简单了，只要删除克隆得到的虚拟机的原machine id并进行重新生成即可。命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br></pre></td></tr></table></figure>
 
-      <!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-0 col-md-10 col-md-offset-1">
-      <!-- 归档列表 -->
-
-      
-
-      <!-- 归档列表 -->
-      
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="2022">
-          <span class="tag-text">2022</span>
-        </span>
-        <ul>
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
           
-          <li>
-            08-17
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/posts/4a17b156/" style="color: #0085a1">
-              <span>
-                Hello World
-                <!--  -->
-                <!-- --  -->
-                <!--  -->
-              </span>
-            </a>
+          <li class="previous">
+            <a href="/posts/6f3d798f/" data-toggle="tooltip" data-placement="top" title="GPU服务器管理常见问题（持续更新）">&larr; Previous Post</a>
+          </li>
+          
+          
+          <li class="next">
+            <a href="/posts/9f560b87/" data-toggle="tooltip" data-placement="top" title="Hexo + Github Actions + Github图床建站过程记录">Next Post &rarr;</a>
           </li>
           
         </ul>
+
+        
+
+        
+
+        <!-- comments start -->
+        
+        <!-- comments end -->
+        <hr>
+
       </div>
-      
-    </div>
-  </div>
-</div>
 
+      <!-- Catalog: Tabe of Content -->
+      <!-- Table of Contents -->
 
-      <!-- 如果开启评论功能 -->
-      
-    </div>
-
-    <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
     
-        <!-- Visitors -->
-<h5><a href="/">VISITORS</a></h5>
-
-<div class="widget">
-  <span>
-    Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-  </span>
-  <br />
-  <span>
-    <b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-  </span>
-</div>
-
-
-        <hr>
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">问题一：系统找不到第二块Host-only模式的网卡</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">问题描述</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">问题复现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">问题定位</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">问题解决方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">问题二：克隆快照得到的虚拟机ip地址相同</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-2"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">问题描述</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0-2"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">问题复现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D-2"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">问题定位</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-2"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">问题解决方法</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
     
+
+
+
+      <!-- Sidebar Container -->
+      <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
         <!-- Featured Tags -->
+        
+        <section>
+          <!-- no hr -->
+          <h5>
+            <a href="/tags/">FEATURED TAGS</a>
+          </h5>
+          <div class="tags">
+            
+            <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+            
+          </div>
+        </section>
+        
 
-<section>
-  <h5><a href="/tags/">FEATURED TAGS</a></h5>
-  <div class="tags">
-    
-    
-    <a href="/tags/#Hello-World" title="Hello-World" rel="1">Hello-World</a>
-    
-    
+        <!-- Friends Blog -->
+        
+      </div>
+    </div>
   </div>
-</section>
+</article>
 
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-  <h5><a href="/about/">ABOUT ME</a></h5>
-  <div class="short-about">
 
-    
-    <img id="avatar_pic" src="/imgs/avatar/avatar.jpg" alt="avatar_pic" style="box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -moz-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);
-    -webkit-box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, .5);" />
-    
+<!-- anchorjs start -->
+<!-- async load function -->
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script type="text/javascript">
+  // async load function
+  function async (u, c) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) {
+      o.addEventListener('load', function(e) {
+        c(null, e);
+      }, false);
+    }
+    s.parentNode.insertBefore(o, s);
+  };
+</script>
+<script type="text/javascript">
+  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
+  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
+    anchors.options = {
+      visible: 'hover',
+      placement: 'left',
+      // icon: 'ℬ'
+      icon: '❡'
+    };
+    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+  });
+</script>
+<style>
+  /* place left on bigger screen */
+  @media all and (min-width: 800px) {
+    .anchorjs-link {
+      position: absolute;
+      left: -0.75em;
+      font-size: 1.1em;
+      margin-top: -0.1em;
+    }
+  }
+</style>
 
-    
-    <p>Stay hungry. Stay foolish.</p>
-    
+<!-- anchorjs end -->
 
-    <!-- SNS Link -->
-    <ul class="list-inline">
-      
-
-      
-      <li>
-        <a target="_blank" href="https://github.com/vwonx">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle fa-stack-2x"></i>
-            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-          </span>
-        </a>
-      </li>
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-
-      
-        <li>
-          <a target="_blank" href="mailto:vwonx@outlook.com">
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-circle fa-stack-2x"></i>
-              <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-            </span>
-          </a>
-        </li>
-      
-
-    </ul>
-  </div>
-</section>
-
-        <hr>
-    
-        <!-- RECENT POSTS -->
-
-<h5><a href="/">RECENT POSTS</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="../../posts/4a17b156/">
-      <li>Hello World</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Archives -->
-
-<h5><a href="/archives/">archives</a></h5>
-<div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li></ul>
-</div>
-
-
-        <hr>
-    
-        <!-- Categories -->
-
-<h5><a href="/categories/">categories</a></h5>
-<div class="widget">
-  <ul>
-    
-    <a href="/categories/#Hello-World">
-      <li>Hello-World</li>
-    </a>
-    
-  </ul>
-</div>
-
-
-        <hr>
-    
-</div>
-
-
-    
-  </div>
-</div>
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->

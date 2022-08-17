@@ -96,10 +96,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="http://vwonx.github.io/posts/4a17b156/">
+  <link rel="canonical" href="http://vwonx.github.io/posts/9f560b87/">
   <title>
     
-      Hello World - Blog | Vwonx
+      Hexo + Github Actions + Github图床建站过程记录 - Blog | Vwonx
     
   </title>
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -331,14 +331,16 @@
           <div class="post-heading">
             <div class="tags">
               
-              <a class="tag" href="/tags/#Hello-World" title="Hello-World">Hello-World</a>
+              <a class="tag" href="/tags/#教程" title="教程">教程</a>
+              
+              <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
               
             </div>
-            <h1>Hello World</h1>
-            <h2 class="subheading">hello world demo...</h2>
+            <h1>Hexo + Github Actions + Github图床建站过程记录</h1>
+            <h2 class="subheading">利用仓库分支和Github Actions实现Hexo博客的方便管理，同时使用Github仓库作为图床以供文章图片使用。</h2>
             <span class="meta">
               Posted by Vwonx on
-              2022-08-17
+              2022-05-05
             </span>
 
 
@@ -346,11 +348,11 @@
             <!-- WordCount start -->
             <div class="blank_box"></div>
             <span class="meta">
-              Estimated Reading Time <span class="post-count">1</span> Minutes
+              Estimated Reading Time <span class="post-count">8</span> Minutes
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">80</span> In Total
+              Words <span class="post-count">2.1k</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -412,25 +414,86 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <p>该类建站教程，在许多博客上均有记录，按照自己的需求的不同，可能会产生一些不同的地方，但大致的流程一致。</p>
+<p>对于我个人来说，所建的站需要满足以下三点需求：</p>
+<ol>
+<li>源码和生成的静态网页以不同分支/仓库进行分别管理</li>
+<li>能够实现CI/CD</li>
+<li>能够有稳定的图床，供博客文章图片使用</li>
+</ol>
+<p>对于需求1，由于分库管理个人不是很喜欢，所以仅采用了不同分支进行管理。（见Hexo + Github Pages 建站过程）<br>
+对于需求2，目前能够和Github共同使用的第三方平台有许多，例如Hexo的官方中文文档里使用了 <strong>Travis CI</strong>。但Github官方就有提供有一个CI/CD的方式，即Github Actions，因此可直接使用其实现功能。（见Github Actions 配置）<br>
+对于需求3，Github仓库本身就可以作为一个图床使用，但是用这种方式直接作为图床会带来容量和速度的问题。好在这些问题目前还不算大问题，因此先这样使用。</p>
+<h1>Hexo + Github Pages 建站过程</h1>
+<ol>
+<li>基本的本机Git和Github绑定，如Git安装、密钥生成配置等，这类教程很多，使用任意检索网站进行搜索即可。主要就是保证仓库能够进行正常的 <strong>pull/push</strong> 操作，而配置密钥则可以免密码方便地进行操作。</li>
+<li>Github上建库，有两个注意点。其一仓库名需要取 <strong><a target="_blank" rel="noopener" href="http://xn--Github-8h6jw94g4v9a.github.io">Github用户名.github.io</a></strong>，这样之后可以直接使用对应的仓库名访问博客，否则需要加上二级域名 <strong><a target="_blank" rel="noopener" href="http://xn--Github-8h6jw94g4v9a.github.io/%E4%BB%93%E5%BA%93%E5%90%8D">Github用户名.github.io/仓库名</a></strong> 才能访问。其二不能设置为私库，私库需要 <strong>Github Pro</strong> 才能设置为Github Pages。<br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/1.png" alt="1"><br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/2.png" alt="2"></li>
+<li>本地创建文件夹，以blog命名为例。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> blog</span><br><span class="line">hexo init blog <span class="comment"># hexo初始化文件夹</span></span><br><span class="line">git init blog  <span class="comment"># git初始化文件夹</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>安装主题（可选），以butterfly主题为例。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> blog</span><br><span class="line">git <span class="built_in">clone</span> -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br><span class="line">vim _config.yml <span class="comment"># 修改对应主题配置为butterfly</span></span><br><span class="line">npm install hexo-renderer-pug hexo-renderer-stylus --save <span class="comment"># 安装主题必要插件</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>将本地仓库和Github仓库相关联，当你创建好一个空的Github仓库时，仓库主页有对应代码，按顺序执行就行。</li>
+<li>由于butterfly主题是另一个仓库，所以直接上传会发现Github上面对应的themes文件夹是空的。因此进行子仓库绑定。（可选）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add -b master git@github.com:jerryc127/hexo-theme-butterfly.git themes/butterfly</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>提交commit，推送远程仓库。<br>
+注意此时虽然推送到了仓库，但是并没有生成静态网页文件，所以博客是无法访问的。需要通过接下来的Github Actions的配置执行完工作流，才会在仓库的另一个分支里生成静态网页。</li>
+</ol>
+<h1>Github Actions 配置</h1>
+<ol>
+<li>Github的账户设置中新建一个token，这个token能够使得Github Actions 获取控制仓库的权限。<br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/3.png" alt="3"></li>
+<li>token的权限选择，只需要第一项“repo”，因为只需要仓库的控制权。之后会跳回原先token的总页面，这时能看到刚才新建的token，点击复制按钮/或进行复制（这个token离开页面后就不可见了，所以务必确认已经复制，否则要重新按步骤1进行操作）。<br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/4.png" alt="4"><br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/5.png" alt="5"></li>
+<li>在博客所在的仓库设置里，将复制的token配置为Actions Secret。配置过程中所取的名字后面会用到，所以也需要记住，这里以 <strong>ACCESS_TOKEN</strong> 为例。<br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/6.png" alt="6"><br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/7.png" alt="7"></li>
+<li>点击仓库里的Actions标签，选择Simple workflow，在生成的yml文件里，配置如下代码。代码都很简单，很容易看懂。基本上主要的行也均有注释，按照注释结合自己的实际情况进行修改。</li>
+</ol>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is a basic workflow to help you get started with Actions</span></span><br><span class="line"></span><br><span class="line"><span class="attr">name:</span> <span class="string">CI</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Controls when the workflow will run</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># Triggers the workflow on push or pull request events but only for the master branch</span></span><br><span class="line">  <span class="comment"># 类似数据库的触发器，当下述行为发生时候，执行下述脚本。这里下面的代码是指当master分支有push操作时候触发</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ]</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Allows you to run this workflow manually from the Actions tab</span></span><br><span class="line">  <span class="attr">workflow_dispatch:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A workflow run is made up of one or more jobs that can run sequentially or in parallel</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># This workflow contains a single job called &quot;build&quot;</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="comment"># The type of runner that the job will run on</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Steps represent a sequence of tasks that will be executed as part of the job</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="comment"># 步骤名字</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span> <span class="comment"># 使用的插件，其实就是对应Github上的仓库地址，可以直接取访问，查看具体配置。如对于该插件，地址为github.com/actions/checkout</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">ref:</span> <span class="string">master</span> <span class="comment"># 切换到master分支</span></span><br><span class="line">          <span class="attr">submodules:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">fetch-depth:</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Use</span> <span class="string">Node.js</span> <span class="number">16.</span><span class="string">x</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&#x27;16.x&#x27;</span> <span class="comment"># 使用16版本的nodejs</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">NPM</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.OS</span> <span class="string">&#125;&#125;-npm-cache</span></span><br><span class="line">          <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.OS &#125;&#125;-npm-cache</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span> <span class="comment"># 缓存和安装依赖包</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span> <span class="comment"># 执行目录下package.json里的build脚本命令</span></span><br><span class="line">        </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span></span><br><span class="line">        <span class="comment"># You may pin to the exact commit or the version.</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="comment"># deploy_key: $&#123;&#123; secrets.DEPLOY_KEY &#125;&#125;</span></span><br><span class="line">          <span class="attr">github_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.ACCESS_TOKEN</span> <span class="string">&#125;&#125;</span> <span class="comment"># 这里就是上述配置Actions Secret时候设置的名字</span></span><br><span class="line">          <span class="attr">publish_branch:</span> <span class="string">gh-pages</span> <span class="comment"># 生成的静态网页文件放在哪个分支里</span></span><br><span class="line">          <span class="attr">publish_dir:</span> <span class="string">public</span></span><br><span class="line">          <span class="attr">disable_nojekyll:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Get</span> <span class="string">the</span> <span class="string">output</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">&quot;$<span class="template-variable">&#123;&#123; steps.deploy.outputs.notify &#125;&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>配置好了，提交。会生成一个commit，之后会发现脚本开始执行了。但是博客还是不能访问，这是由于没有配置Github Pages使用哪个分支，默认是master，所以无法部署。在仓库的设置里进行更改后，就能正常访问博客了。至此，博客建站完成。<strong>后续只需要在本地仓库写博客，然后推送master分支，即能自动在gh-pages分支生成静态文件，进行博客部署操作。</strong><br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/8.png" alt="8"></li>
+</ol>
+<h1>Github图床</h1>
+<p>写博客的过程中，不可避免的就是需要在文章里插入图片。图片虽然可以直接放在博客的仓库里，但是随着图片数量的增加，会明显增大博客仓库的体积，也不易于管理。</p>
+<p>一种简单的解决方案就是找一个第三方图床平台，保存需要上传的图片。目前市面上存在有免费/收费两种图床。免费的虽然可以用，但是之前发生过免费图床平台图片失效，而我本地又没有保存副本，导致直接丢失了图片。因此，找寻一个免费稳定的图床，也是一个建站过程中比较重要的步骤。</p>
+<p>总的来说，我寻求的图床需要具备有以下特点：</p>
+<ol>
+<li>稳定，图片不丢失，易于管理</li>
+<li>访问速度快</li>
+<li>有较大的容量</li>
+</ol>
+<p>鉴于上述分析，最后选用了Github仓库作为图床。很明显，使用自己的Github仓库作为图床，可以完美的对应上述的第一个特点。但是对于后两个特点，Github仓库又难以较好地匹配。好在对于特点2，可以使用免费的CDN进行加速，实际测试后，速度完全可以接受。而对于特点3，Github仓库有1G的容量限制，好在博客使用的图片尺寸均不大，而且经过压缩后基本都在100k以内，暂时可以满足个人需求。</p>
+<p>确定使用Github仓库作为图床后，如何方便地上传图片？参考其他博客后，也决定采用PicGo。</p>
+<h2 id="配置PicGo">配置PicGo</h2>
+<ol>
+<li>Github上建立一个仓库，本地不用建库。注意库必须是public，否则不能访问。</li>
+<li>建立一个token（见Github Actions 配置中的第1步至第3步）。</li>
+<li>在PicGo中进行配置，按照选项名字进行配置就行。这里的指定存储路径就是就是指定图片上传后放在哪个子文件夹里，如：配置写“a/”，则上传图片后会保存在仓库的a文件夹下。<br>
+<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/9.png" alt="9"></li>
+</ol>
+<h2 id="配置CDN加速">配置CDN加速</h2>
+<p>其实就是上图选项中的自定义域名，配置为 <a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/Github%E7%94%A8%E6%88%B7%E5%90%8D/%E5%9B%BE%E7%89%87%E4%BB%93%E5%BA%93%E5%90%8D">https://cdn.jsdelivr.net/gh/Github用户名/图片仓库名</a> 。</p>
+<h2 id="图片压缩">图片压缩</h2>
+<p>可以直接使用butterfly主题博客推荐的<a target="_blank" rel="noopener" href="https://tinypng.com">在线网站</a>，免费版有单文件大小限制，但是一般都够用了。</p>
 
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
+          
+          <li class="previous">
+            <a href="/posts/433e5440/" data-toggle="tooltip" data-placement="top" title="Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决">&larr; Previous Post</a>
+          </li>
           
           
         </ul>
@@ -454,7 +517,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Quick-Start"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Quick Start</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Create-a-new-post"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Create a new post</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Run-server"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Run server</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Generate-static-files"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Generate static files</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Deploy-to-remote-sites"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Deploy to remote sites</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Hexo + Github Pages 建站过程</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Github Actions 配置</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Github图床</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%85%8D%E7%BD%AEPicGo"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">配置PicGo</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%85%8D%E7%BD%AECDN%E5%8A%A0%E9%80%9F"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">配置CDN加速</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">图片压缩</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -477,7 +540,9 @@
           </h5>
           <div class="tags">
             
-            <a class="tag" href="/tags/#Hello-World" title="Hello-World">Hello-World</a>
+            <a class="tag" href="/tags/#教程" title="教程">教程</a>
+            
+            <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
             
           </div>
         </section>

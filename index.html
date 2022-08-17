@@ -394,29 +394,118 @@
   
   <!-- top start (article top hot config) -->
   
+  <div class="top">
+    <div class="iconfont icon-hot animated infinite tada"></div>
+  </div>
+  
   <!-- top end -->
   
 
-  <a href="/posts/4a17b156/">
+  <a href="/posts/6f3d798f/">
     <h2 class="post-title">
-      Hello World
+      GPU服务器管理常见问题（持续更新）
     </h2>
     <h3 class="post-subtitle">
-      hello world demo...
+      该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录。
     </h3>
     <div class="post-content-preview">
-      Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Qu...
+      本文主要对管理GPU服务器期间遇到的各种问题提供一种解决方案，希望能帮助到后续管理设备的同学。
+注意，各种问题可能存在多种解决方式，下文提供的解决方案，仅在所标注的版本的系统里有效。如后续操作系统版本升级，可能也会出现无法适用的情况。
+同样，所提供的解决方案也有可能并不是最佳的，因此更重要的还是提供一种类似的思想以供参考。
+管理员必知
+一些基础的Linux就不再提
+vim 编辑器
+vim一定...
     </div>
   </a>
   
   <p class="post-meta" style="margin: 10px 0;">
     Posted by Vwonx on
-    2022-08-17
+    2022-05-10
   </p>
   <div class="tags">
     
-    <a href="/tags/#Hello-World" title="Hello-World">Hello-World</a>
+    <a href="/tags/#Linux" title="Linux">Linux</a>
+    
+    <a href="/tags/#教程" title="教程">教程</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/posts/433e5440/">
+    <h2 class="post-title">
+      Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决
+    </h2>
+    <h3 class="post-subtitle">
+      记录使用virtual box安装ubuntu 20.04 server过程中发生的问题及解决过程。
+    </h3>
+    <div class="post-content-preview">
+      由于习惯了使用云开发机进行项目的开发，因此为了模拟云开发机的环境，我通常会使用虚拟机安装一个Linux系统作为云开发机，并利用虚拟机克隆机制做备份、多开发环境部署等操作。
+近日，原先虚拟机上安装的CentOS 8发现无法通过yum包管理来安装软件。后经查询，发现CentOS 8已经结束了生命周期（EOL），社区已不再维护。所以如果需要使用yum包来下载软件，需要更新源。（例如替换为阿里源）
+...
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Vwonx on
+    2022-05-09
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#Linux" title="Linux">Linux</a>
+    
+  </div>
+  
+
+</div>
+<hr>
+
+<div class="post-preview">
+  
+  <!-- top start (article top hot config) -->
+  
+  <!-- top end -->
+  
+
+  <a href="/posts/9f560b87/">
+    <h2 class="post-title">
+      Hexo + Github Actions + Github图床建站过程记录
+    </h2>
+    <h3 class="post-subtitle">
+      利用仓库分支和Github Actions实现Hexo博客的方便管理，同时使用Github仓库作为图床以供文章图片使用。
+    </h3>
+    <div class="post-content-preview">
+      该类建站教程，在许多博客上均有记录，按照自己的需求的不同，可能会产生一些不同的地方，但大致的流程一致。
+对于我个人来说，所建的站需要满足以下三点需求：
+
+源码和生成的静态网页以不同分支/仓库进行分别管理
+能够实现CI/CD
+能够有稳定的图床，供博客文章图片使用
+
+对于需求1，由于分库管理个人不是很喜欢，所以仅采用了不同分支进行管理。（见Hexo + Github Pages 建站过程）
+对于...
+    </div>
+  </a>
+  
+  <p class="post-meta" style="margin: 10px 0;">
+    Posted by Vwonx on
+    2022-05-05
+  </p>
+  <div class="tags">
+    
+    <a href="/tags/#教程" title="教程">教程</a>
+    
+    <a href="/tags/#Hexo" title="Hexo">Hexo</a>
     
   </div>
   
@@ -468,7 +557,15 @@ Qu...
   <div class="tags">
     
     
-    <a href="/tags/#Hello-World" title="Hello-World" rel="1">Hello-World</a>
+    <a href="/tags/#Linux" title="Linux" rel="2">Linux</a>
+    
+    
+    
+    <a href="/tags/#教程" title="教程" rel="2">教程</a>
+    
+    
+    
+    <a href="/tags/#Hexo" title="Hexo" rel="1">Hexo</a>
     
     
   </div>
@@ -542,8 +639,16 @@ Qu...
 <div class="widget">
   <ul>
     
-    <a href="posts/4a17b156/">
-      <li>Hello World</li>
+    <a href="posts/6f3d798f/">
+      <li>GPU服务器管理常见问题（持续更新）</li>
+    </a>
+    
+    <a href="posts/433e5440/">
+      <li>Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决</li>
+    </a>
+    
+    <a href="posts/9f560b87/">
+      <li>Hexo + Github Actions + Github图床建站过程记录</li>
     </a>
     
   </ul>
@@ -556,7 +661,7 @@ Qu...
 
 <h5><a href="/archives/">archives</a></h5>
 <div class="widget">
-  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/08/">August 2022</a><span class="archive-list-count">1</span></li></ul>
+  <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2022/05/">May 2022</a><span class="archive-list-count">3</span></li></ul>
 </div>
 
 
@@ -568,8 +673,12 @@ Qu...
 <div class="widget">
   <ul>
     
-    <a href="/categories/#Hello-World">
-      <li>Hello-World</li>
+    <a href="/categories/#Linux">
+      <li>Linux</li>
+    </a>
+    
+    <a href="/categories/#Hexo">
+      <li>Hexo</li>
     </a>
     
   </ul>
