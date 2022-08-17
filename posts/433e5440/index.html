@@ -102,7 +102,119 @@
       Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决 - Blog | Vwonx
     
   </title>
-<meta name="generator" content="Hexo 6.2.0"></head>
+<meta name="generator" content="Hexo 6.2.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
 <!-- hack iOS CSS :active style -->
@@ -414,43 +526,29 @@
 
         <p>由于习惯了使用云开发机进行项目的开发，因此为了模拟云开发机的环境，我通常会使用虚拟机安装一个Linux系统作为云开发机，并利用虚拟机克隆机制做备份、多开发环境部署等操作。</p>
 <p>近日，原先虚拟机上安装的CentOS 8发现无法通过yum包管理来安装软件。后经查询，发现CentOS 8已经结束了生命周期（EOL），社区已不再维护。所以如果需要使用yum包来下载软件，需要更新源。（例如替换为阿里源）</p>
-<p>出于上述原因，再加考虑到好像ubuntu 20.04的版本自己没有用过，所以打算直接将旧的CentOS替换为Ubuntu。我一般的步骤如下：</p>
-<ol>
-<li>先安装一台虚拟机（命名为A），并在安装完成后进行部分通用型软件的安装，如 “net-tools”。</li>
-<li>在虚拟机A安装好通用软件后，将该状态创建一个快照。</li>
-<li>以步骤2中的快照作为蓝本，后续全部的开发机以这个蓝本为基础进行克隆，并部署对应所需的环境。</li>
-</ol>
+<p>出于上述原因，再加考虑到好像ubuntu 20.04的版本自己没有用过，所以打算直接将旧的CentOS替换为Ubuntu。我一般的步骤如下： 1. 先安装一台虚拟机（命名为A），并在安装完成后进行部分通用型软件的安装，如 “net-tools”。 2. 在虚拟机A安装好通用软件后，将该状态创建一个快照。 3. 以步骤2中的快照作为蓝本，后续全部的开发机以这个蓝本为基础进行克隆，并部署对应所需的环境。</p>
 <p>上述三个步骤可以保证，就算我开发机的环境崩溃了，我也不需要重新安装一遍系统。而是可以直接再以快照作为蓝本克隆出一个新的虚拟机作为开发机。</p>
 <p>接着，要解决的另一个问题，就是虚拟机IP分配的问题。由于virtual box默认的网卡使用的是<strong>NAT</strong>模式，该模式的特点是简单，不需要任何配置，就可以使虚拟机连上互联网。但是弊端是ip是动态的，会发生变化。而我的虚拟机是作为开发机使用的，平常均是vscode+ssh插件实现与开发机之间的连接。因此，这种会发生变化的ip对于作为开发机的虚拟机来说是极为不便的。</p>
 <p>为了解决上述问题，我的做法通常是给虚拟机再加一块网卡，并设置为<strong>Host-only</strong>模式，这样后续的ip都会是固定的。这种做法在使用CentOS作为系统的时候，没发生过任何问题，即在克隆快照后也会默认分配一个新的ip地址。但是在换到ubuntu后，依次发现了两个问题。下面对问题进行记录，并附上解决方法。</p>
-<h1>问题一：系统找不到第二块Host-only模式的网卡</h1>
+<h1 id="问题一系统找不到第二块host-only模式的网卡">问题一：系统找不到第二块Host-only模式的网卡</h1>
 <h2 id="问题描述">问题描述</h2>
 <p>在安装完系统后，添加第二块<strong>Host-only</strong>模式的显卡。在进入系统后，发现依旧只有旧的<strong>NAT</strong>模式网卡。</p>
 <h2 id="问题复现">问题复现</h2>
 <p>经过多次系统安装后发现，如果是在给虚拟机安装系统前就添加了网卡，那么在安装完成后不会出现该问题。该问题发生的情况是在安装完系统后，再添加网卡。</p>
 <h2 id="问题定位">问题定位</h2>
-<p>在系统里查看网络设备（执行 ipconfig -a），发现确实有这个网卡，但是ip地址是空的。想到是否可能是该网络没有激活。在执行下述命令临时启动网卡并进行ip分配后，发现问题解决，由此问题定位完成。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a <span class="comment"># 这一步仅是查看并记录没有开启的网卡的编号</span></span><br><span class="line">ifconfig 上一步记录的网卡编号（如enp0s8） up <span class="comment"># 启动网卡</span></span><br><span class="line">dhclient 上一步记录的网卡编号 <span class="comment"># 分配ip</span></span><br></pre></td></tr></table></figure>
+<p>在系统里查看网络设备（执行 ipconfig -a），发现确实有这个网卡，但是ip地址是空的。想到是否可能是该网络没有激活。在执行下述命令临时启动网卡并进行ip分配后，发现问题解决，由此问题定位完成。 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a <span class="comment"># 这一步仅是查看并记录没有开启的网卡的编号</span></span><br><span class="line">ifconfig 上一步记录的网卡编号（如enp0s8） up <span class="comment"># 启动网卡</span></span><br><span class="line">dhclient 上一步记录的网卡编号 <span class="comment"># 分配ip</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="问题解决方法">问题解决方法</h2>
-<p>上述问题定位里的解决方案可以临时解决ip问题，但是并不是永久配置，会在系统重启后会再次失效。永久配置的方法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/netplan/00-installer-config.yaml <span class="comment"># 打开netplan的yaml文件，可能名字会不一样</span></span><br></pre></td></tr></table></figure>
-<p>通常而言，如果在安装系统的过程中没有进行手动ip分配，那么yaml文件的内容大致如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is the network config written by &#x27;subiquity&#x27;</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>很明显可以看到，他并没有配置enp0s8编号的网卡，因此我们只需要将它补上，也直接使用DHCP协议自动分配ip就行。修改后的文件如下：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is the network config written by &#x27;subiquity&#x27;</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">enp0s8:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p>之后重启系统，问题解决。</p>
-<h1>问题二：克隆快照得到的虚拟机ip地址相同</h1>
-<h2 id="问题描述-2">问题描述</h2>
+<p>上述问题定位里的解决方案可以临时解决ip问题，但是并不是永久配置，会在系统重启后会再次失效。永久配置的方法如下： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/netplan/00-installer-config.yaml <span class="comment"># 打开netplan的yaml文件，可能名字会不一样</span></span><br></pre></td></tr></table></figure> 通常而言，如果在安装系统的过程中没有进行手动ip分配，那么yaml文件的内容大致如下： <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is the network config written by 'subiquity'</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure> 很明显可以看到，他并没有配置enp0s8编号的网卡，因此我们只需要将它补上，也直接使用DHCP协议自动分配ip就行。修改后的文件如下： <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This is the network config written by 'subiquity'</span></span><br><span class="line"><span class="attr">network:</span></span><br><span class="line">  <span class="attr">ethernets:</span></span><br><span class="line">    <span class="attr">enp0s3:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">enp0s8:</span></span><br><span class="line">      <span class="attr">dhcp4:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">version:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure> 之后重启系统，问题解决。</p>
+<h1 id="问题二克隆快照得到的虚拟机ip地址相同">问题二：克隆快照得到的虚拟机ip地址相同</h1>
+<h2 id="问题描述-1">问题描述</h2>
 <p>在进行快照克隆后，本来得到的虚拟机的Host-only网卡应该会分配一个新的ip地址（CentOS是可以的），但是后来发现得到的是一样的ip地址。</p>
-<h2 id="问题复现-2">问题复现</h2>
+<h2 id="问题复现-1">问题复现</h2>
 <p>对快照进行克隆，就可以复现该问题。</p>
-<h2 id="问题定位-2">问题定位</h2>
-<p>这个问题定位花了比较多的时间，网上一些博客说需要换网卡的MAC地址。但这个显然不行，因为现在版本的virtual box对虚拟机克隆的时候会自动随机分配一个MAC地址。为了验证这个想法，也进行了实验。结果果然如预料一般。那么显然DHCP协议分配ip的时候并不是看MAC地址，那么会不会是以其他的编码作为id呢？抱着这个想法在外网上查找了一番后，见到了如下的一种<a target="_blank" rel="noopener" href="https://forums.virtualbox.org/viewtopic.php?f=6&amp;t=100850#p489404">说法</a>：<br>
-<img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/ubuntu-vb-problems-record/1.png" alt="1"><br>
-他指出除了MAC地址外，DUID也被用作DHCP的唯一识别id。主要是应对当下MAC地址随机趋势和一些个人隐私安全问题。而Linux系统有些使用machine id作为DUID。看到这里，就明白为什么重新随机MAC地址也无法改变IP地址了。</p>
-<h2 id="问题解决方法-2">问题解决方法</h2>
-<p>知道了原因，那么解决方法就很简单了，只要删除克隆得到的虚拟机的原machine id并进行重新生成即可。命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br></pre></td></tr></table></figure>
+<h2 id="问题定位-1">问题定位</h2>
+<p>这个问题定位花了比较多的时间，网上一些博客说需要换网卡的MAC地址。但这个显然不行，因为现在版本的virtual box对虚拟机克隆的时候会自动随机分配一个MAC地址。为了验证这个想法，也进行了实验。结果果然如预料一般。那么显然DHCP协议分配ip的时候并不是看MAC地址，那么会不会是以其他的编码作为id呢？抱着这个想法在外网上查找了一番后，见到了如下的一种<a target="_blank" rel="noopener" href="https://forums.virtualbox.org/viewtopic.php?f=6&amp;t=100850#p489404">说法</a>： <img src="https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/ubuntu-vb-problems-record/1.png" alt="1"> 他指出除了MAC地址外，DUID也被用作DHCP的唯一识别id。主要是应对当下MAC地址随机趋势和一些个人隐私安全问题。而Linux系统有些使用machine id作为DUID。看到这里，就明白为什么重新随机MAC地址也无法改变IP地址了。</p>
+<h2 id="问题解决方法-1">问题解决方法</h2>
+<p>知道了原因，那么解决方法就很简单了，只要删除克隆得到的虚拟机的原machine id并进行重新生成即可。命令如下： <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> /etc/machine-id</span><br><span class="line">systemd-machine-id-setup</span><br></pre></td></tr></table></figure></p>
+
 
         <hr>
         <!-- Pager -->
@@ -486,7 +584,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">问题一：系统找不到第二块Host-only模式的网卡</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">问题描述</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">问题复现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">问题定位</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">问题解决方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">问题二：克隆快照得到的虚拟机ip地址相同</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-2"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">问题描述</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0-2"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">问题复现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D-2"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">问题定位</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-2"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">问题解决方法</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E4%B8%80%E7%B3%BB%E7%BB%9F%E6%89%BE%E4%B8%8D%E5%88%B0%E7%AC%AC%E4%BA%8C%E5%9D%97host-only%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BD%91%E5%8D%A1"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">问题一：系统找不到第二块Host-only模式的网卡</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">问题描述</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">问题复现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">问题定位</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">问题解决方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E4%BA%8C%E5%85%8B%E9%9A%86%E5%BF%AB%E7%85%A7%E5%BE%97%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BAip%E5%9C%B0%E5%9D%80%E7%9B%B8%E5%90%8C"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">问题二：克隆快照得到的虚拟机ip地址相同</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0-1"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">问题描述</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%A4%8D%E7%8E%B0-1"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">问题复现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D-1"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">问题定位</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95-1"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">问题解决方法</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -1052,20 +1150,5 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
 
 
 		
-	<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-</body>
+	</body>
 </html>
