@@ -1,6 +1,6 @@
 ---
-title: GPU服务器管理常见问题（持续更新）
-subtitle: 该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录。
+title: GPU服务器管理常见问题
+subtitle: 该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录
 catalog: true
 tags:
   - Linux

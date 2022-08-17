@@ -1,6 +1,6 @@
 ---
 title: Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决
-subtitle: 记录使用virtual box安装ubuntu 20.04 server过程中发生的问题及解决过程。
+subtitle: 记录使用virtual box安装ubuntu 20.04 server过程中发生的问题及解决过程
 catalog: true
 tags:
   - Linux
