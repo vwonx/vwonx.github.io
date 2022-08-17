@@ -1,3 +1,4 @@
+http://vwonx.github.io/posts/83fb8ed6/
 http://vwonx.github.io/404.html
 http://vwonx.github.io/about/index.html
 http://vwonx.github.io/tags/index.html
@@ -7,8 +8,10 @@ http://vwonx.github.io/posts/6f3d798f/
 http://vwonx.github.io/posts/433e5440/
 http://vwonx.github.io/posts/9f560b87/
 http://vwonx.github.io/
-http://vwonx.github.io/tags/Linux/
-http://vwonx.github.io/tags/%E6%95%99%E7%A8%8B/
+http://vwonx.github.io/tags/%E7%AE%97%E6%B3%95-%E5%AD%97%E7%AC%A6%E4%B8%B2/
 http://vwonx.github.io/tags/Hexo/
-http://vwonx.github.io/categories/Linux/
+http://vwonx.github.io/tags/%E6%95%99%E7%A8%8B/
+http://vwonx.github.io/tags/Linux/
+http://vwonx.github.io/categories/%E7%AE%97%E6%B3%95/
 http://vwonx.github.io/categories/Hexo/
+http://vwonx.github.io/categories/Linux/

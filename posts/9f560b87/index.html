@@ -331,9 +331,9 @@
           <div class="post-heading">
             <div class="tags">
               
-              <a class="tag" href="/tags/#教程" title="教程">教程</a>
-              
               <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+              
+              <a class="tag" href="/tags/#教程" title="教程">教程</a>
               
             </div>
             <h1>Hexo + Github Actions + Github图床建站过程记录</h1>
@@ -492,7 +492,7 @@
         <ul class="pager">
           
           <li class="previous">
-            <a href="/posts/433e5440/" data-toggle="tooltip" data-placement="top" title="Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决">&larr; Previous Post</a>
+            <a href="/posts/433e5440/" data-toggle="tooltip" data-placement="auto" title="Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决">&larr; Previous Post</a>
           </li>
           
           
@@ -540,9 +540,9 @@
           </h5>
           <div class="tags">
             
-            <a class="tag" href="/tags/#教程" title="教程">教程</a>
-            
             <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+            
+            <a class="tag" href="/tags/#教程" title="教程">教程</a>
             
           </div>
         </section>
@@ -1008,7 +1008,9 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
               slicesOfContent.forEach(function (slice) {
                 resultItem += "<p class=\"search-result-content\">" + highlightKeyword(content, slice) + "...</p>";
               });
-              resultItem += "</div><div class='search-result-right'><img class='media-image' src='" + imgUrl + "' width='64px' height='48px'></img></div></a>";
+              if(imgUrl) {
+                resultItem += "</div><div class='search-result-right'><img class='media-image' src='" + imgUrl + "' width='64px' height='48px'></img></div></a>";
+              }
 
               resultItems.push({item: resultItem, searchTextCount: searchTextCount, hitCount: hitCount, id: resultItems.length});
             }

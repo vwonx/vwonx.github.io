@@ -99,7 +99,7 @@
   <link rel="canonical" href="http://vwonx.github.io/posts/6f3d798f/">
   <title>
     
-      GPU服务器管理常见问题（持续更新） - Blog | Vwonx
+      GPU服务器管理常见问题 - Blog | Vwonx
     
   </title>
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -331,13 +331,13 @@
           <div class="post-heading">
             <div class="tags">
               
-              <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
-              
               <a class="tag" href="/tags/#教程" title="教程">教程</a>
               
+              <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
+              
             </div>
-            <h1>GPU服务器管理常见问题（持续更新）</h1>
-            <h2 class="subheading">该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录。</h2>
+            <h1>GPU服务器管理常见问题</h1>
+            <h2 class="subheading">该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录</h2>
             <span class="meta">
               Posted by Vwonx on
               2022-05-10
@@ -580,9 +580,13 @@ scp命令也很简单，只需要掌握两种，一种拷贝文件，一种拷�
         <!-- Pager -->
         <ul class="pager">
           
+          <li class="previous">
+            <a href="/posts/83fb8ed6/" data-toggle="tooltip" data-placement="auto" title="最小表示法">&larr; Previous Post</a>
+          </li>
+          
           
           <li class="next">
-            <a href="/posts/433e5440/" data-toggle="tooltip" data-placement="top" title="Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决">Next Post &rarr;</a>
+            <a href="/posts/433e5440/" data-toggle="tooltip" data-placement="auto" title="Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决">Next Post &rarr;</a>
           </li>
           
         </ul>
@@ -629,9 +633,9 @@ scp命令也很简单，只需要掌握两种，一种拷贝文件，一种拷�
           </h5>
           <div class="tags">
             
-            <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
-            
             <a class="tag" href="/tags/#教程" title="教程">教程</a>
+            
+            <a class="tag" href="/tags/#Linux" title="Linux">Linux</a>
             
           </div>
         </section>
@@ -1097,7 +1101,9 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
               slicesOfContent.forEach(function (slice) {
                 resultItem += "<p class=\"search-result-content\">" + highlightKeyword(content, slice) + "...</p>";
               });
-              resultItem += "</div><div class='search-result-right'><img class='media-image' src='" + imgUrl + "' width='64px' height='48px'></img></div></a>";
+              if(imgUrl) {
+                resultItem += "</div><div class='search-result-right'><img class='media-image' src='" + imgUrl + "' width='64px' height='48px'></img></div></a>";
+              }
 
               resultItems.push({item: resultItem, searchTextCount: searchTextCount, hitCount: hitCount, id: resultItems.length});
             }

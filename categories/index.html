@@ -382,17 +382,19 @@
       <!-- 标签云 -->
       <div id='tag_cloud' class="tags">
         
-        <a href="#Linux" title="Linux" rel="2">Linux</a>
+        <a href="#算法" title="算法" rel="1">算法</a>
         
         <a href="#Hexo" title="Hexo" rel="1">Hexo</a>
+        
+        <a href="#Linux" title="Linux" rel="2">Linux</a>
         
       </div>
 
       <!-- 标签列表 -->
       
       <div class="one-tag-list">
-        <span class="fa fa-tag listing-seperator" id="Linux">
-          <span class="tag-text">Linux</span>
+        <span class="fa fa-tag listing-seperator" id="算法">
+          <span class="tag-text">算法</span>
         </span>
         
         <!-- <li class="listing-item">
@@ -400,38 +402,16 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
         <div class="post-preview">
-          <a href="/posts/6f3d798f/">
+          <a href="/posts/83fb8ed6/">
             <h2 class="post-title">
-              GPU服务器管理常见问题（持续更新）
+              最小表示法
               <!--  -->
               <!-- --  -->
               <!--  -->
             </h2>
             
             <h3 class="post-subtitle">
-              该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录。
-            </h3>
-            
-          </a>
-          <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </div>
-        <hr>
-        
-        <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-        <div class="post-preview">
-          <a href="/posts/433e5440/">
-            <h2 class="post-title">
-              Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决
-              <!--  -->
-              <!-- --  -->
-              <!--  -->
-            </h2>
-            
-            <h3 class="post-subtitle">
-              记录使用virtual box安装ubuntu 20.04 server过程中发生的问题及解决过程。
+              用于快速寻找循环同构字符串集中字典序最小的字符串
             </h3>
             
           </a>
@@ -461,6 +441,57 @@
             
             <h3 class="post-subtitle">
               利用仓库分支和Github Actions实现Hexo博客的方便管理，同时使用Github仓库作为图床以供文章图片使用。
+            </h3>
+            
+          </a>
+          <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+        </div>
+        <hr>
+        
+      </div>
+      
+      <div class="one-tag-list">
+        <span class="fa fa-tag listing-seperator" id="Linux">
+          <span class="tag-text">Linux</span>
+        </span>
+        
+        <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+        <div class="post-preview">
+          <a href="/posts/6f3d798f/">
+            <h2 class="post-title">
+              GPU服务器管理常见问题
+              <!--  -->
+              <!-- --  -->
+              <!--  -->
+            </h2>
+            
+            <h3 class="post-subtitle">
+              该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录
+            </h3>
+            
+          </a>
+          <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+        </div>
+        <hr>
+        
+        <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+        <div class="post-preview">
+          <a href="/posts/433e5440/">
+            <h2 class="post-title">
+              Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决
+              <!--  -->
+              <!-- --  -->
+              <!--  -->
+            </h2>
+            
+            <h3 class="post-subtitle">
+              记录使用virtual box安装ubuntu 20.04 server过程中发生的问题及解决过程
             </h3>
             
           </a>
@@ -880,7 +911,9 @@ start: '#bbbbee', end: '#0085a1' } }; $('#tag_cloud a').tagcloud(); }) } </scrip
               slicesOfContent.forEach(function (slice) {
                 resultItem += "<p class=\"search-result-content\">" + highlightKeyword(content, slice) + "...</p>";
               });
-              resultItem += "</div><div class='search-result-right'><img class='media-image' src='" + imgUrl + "' width='64px' height='48px'></img></div></a>";
+              if(imgUrl) {
+                resultItem += "</div><div class='search-result-right'><img class='media-image' src='" + imgUrl + "' width='64px' height='48px'></img></div></a>";
+              }
 
               resultItems.push({item: resultItem, searchTextCount: searchTextCount, hitCount: hitCount, id: resultItems.length});
             }

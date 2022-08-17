@@ -96,10 +96,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="http://vwonx.github.io/tags/">
+  <link rel="canonical" href="http://vwonx.github.io/posts/83fb8ed6/">
   <title>
     
-      Tags - Blog | Vwonx
+      最小表示法 - Blog | Vwonx
     
   </title>
 <meta name="generator" content="Hexo 6.2.0"></head>
@@ -295,21 +295,22 @@
     .body--light {
       /* intro-header */
       --intro-header-background-image-url-home: url('/imgs/header/home_bg.jpg');
-      --intro-header-background-image-url-post: url('imgs/header/tags_bg.jpg');
+      --intro-header-background-image-url-post: url('');
       --intro-header-background-image-url-post-default: url('/imgs/header/post_bg.jpg');
-      --intro-header-background-image-url-page: url('/imgs/header/tags_bg.jpg');
+      --intro-header-background-image-url-page: url('/imgs/header/archive_bg.jpg');
     }
     .body--dark {
       --intro-header-background-image-url-home: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/imgs/header/home_bg.jpg');
-      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('imgs/header/tags_bg.jpg');
+      --intro-header-background-image-url-post: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('');
       --intro-header-background-image-url-post-default: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/imgs/header/post_bg.jpg');
-      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/imgs/header/tags_bg.jpg');
+      --intro-header-background-image-url-page: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)), url('/imgs/header/archive_bg.jpg');
     }
 
     header.intro-header {
-       /*page*/
-        background-image: var(--intro-header-background-image-url-page);
-        /* background-image: url('/imgs/header/tags_bg.jpg'); */
+       /*post*/
+        
+          background-image: var(--intro-header-background-image-url-post-default);
+        
       
     }
 
@@ -327,10 +328,42 @@
       <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
           
-          <div class="site-heading">
-            <h1>Tags</h1>
-            <!--<hr class="small">-->
-            <span class="subheading">求知若饥，虚心若愚</span>
+          <div class="post-heading">
+            <div class="tags">
+              
+              <a class="tag" href="/tags/#算法-字符串" title="算法-字符串">算法-字符串</a>
+              
+            </div>
+            <h1>最小表示法</h1>
+            <h2 class="subheading">用于快速寻找循环同构字符串集中字典序最小的字符串</h2>
+            <span class="meta">
+              Posted by Vwonx on
+              2022-08-17
+            </span>
+
+
+            
+            <!-- WordCount start -->
+            <div class="blank_box"></div>
+            <span class="meta">
+              Estimated Reading Time <span class="post-count">2</span> Minutes
+            </span>
+            <div class="blank_box"></div>
+            <span class="meta">
+              Words <span class="post-count">673</span> In Total
+            </span>
+            <div class="blank_box"></div>
+            <!-- WordCount end -->
+            
+            
+            <!-- 不蒜子统计 start -->
+            <span class="meta" id="busuanzi_container_page_pv">
+              Viewed <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span> Times
+            </span>
+            <!-- 不蒜子统计 end -->
+            
+
+
           </div>
           
         </div>
@@ -371,161 +404,159 @@
 	Friends Blog、
 	anchorjs、
 	) -->
-		<!-- Main Content -->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <!-- 标签列表 -->
+		<!-- Modify by Yu-Hsuan Yen -->
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <!-- Post Container -->
+      <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-      <!-- 标签云 -->
-      <div id='tag_cloud' class="tags">
+        <h1>最小表示法</h1>
+<p>当字符串首尾相连，则从任一下标开始均可遍历完整个字符串。称这些从不同下标开始得到的字符串为 <strong>循环同构</strong>，而其中字典序最小的字符串称为<strong>最小表示</strong>。</p>
+<h1>数学定义</h1>
+<p>有一个长度为 $n$ 的字符串 $S$ ，则其所构成的循环同构字符串集合 $T$ 可以表示为：</p>
+<p>$$<br>
+T = { S[ i…n ] + S [ 1…i-1 ] \mid 1\le i\le n }<br>
+$$</p>
+<p>其中集合 $T$ 中字典序最小的字符串，为<strong>最小表示字符串</strong>。</p>
+<h1>算法核心</h1>
+<p>设由 $T$ 中得到两个字符串，其分别通过原字符串 $S$ 下标 $i$ 和 $j$ 作为起始位置得到，并且它们的前 $k$ 个字符相同，既有：</p>
+<p>$$<br>
+S[i…i+k-1]=S[j…j+k-1]<br>
+$$</p>
+<p>则对于下一个位置的判断有三种情况：</p>
+<ol>
+<li>$S[i+k]&gt;S[j+k]$，显然以 $i$ 作为起始位置的字符串并不是最小表示，并且也表明了以 $i+1$ 至 $i+k$ 为起始位置得到的字符串都不会是最小表示。这是因为二个字符串的前 $k$ 个字符相同，那么任何一个 $j+p (1 \le p \le k)$ 作为起始位置的字符串均小于 $i+p (1 \le p \le k)$ 作为起始位置得到的字符串。因此，在下一次比较的时候，$i$ 可以直接跳转到下标 $i+k+1$，以继续进行比较。</li>
+<li>$S[i+k]&lt;S[j+k]$，与上面同理，$j$ 可以直接跳转到下标 $j+k+1$，以继续进行比较。</li>
+<li>$S[i+k]=S[j+k]$，直接继续判断下一个位置，即 $k+1$。</li>
+</ol>
+<p>由于在不相等的时候，下标会直接跳过前k个位置。</p>
+<p>因此 $i$ 或者 $j$ 只会遍历字符串一遍，时间复杂度为 $O(n)$</p>
+<h1>算法步骤</h1>
+<ol>
+<li>初始化下标和匹配长度为： $i=0, j=1, k=0$。</li>
+<li>分别比较 $i+k$ 和 $j+k$ 位置字符的大小，根据结果进行跳转。若跳转后的 $i$ 与 $j$ 相等，则可以将任意一个下标加一，以确保比较的两个字符串是不同的字符串。</li>
+<li>重复操作2，直到比较结束。</li>
+<li>由于比较过程中，较大的一方的下标会往后移动，因此，最终答案为 $i$ 和 $j$ 中较小的那一个。</li>
+</ol>
+<h1>代码</h1>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> len = s.<span class="built_in">size</span>();</span><br><span class="line"><span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">1</span>, k = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>(k&lt;len &amp;&amp; i &lt; len &amp;&amp; j &lt; len) &#123;</span><br><span class="line">    <span class="keyword">if</span>(s[(i+k)%len] == s[(j+k)%len]) ++k;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        s[(i+k)%len] &gt; s[(j+k)%len]? i=i+k+<span class="number">1</span> : j=j+k+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(i == j) ++i;</span><br><span class="line">        k = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> ans = <span class="built_in">min</span>(i, j);</span><br></pre></td></tr></table></figure>
+
+
+        <hr>
+        <!-- Pager -->
+        <ul class="pager">
+          
+          
+          <li class="next">
+            <a href="/posts/6f3d798f/" data-toggle="tooltip" data-placement="auto" title="GPU服务器管理常见问题">Next Post &rarr;</a>
+          </li>
+          
+        </ul>
+
         
-        <a href="#算法-字符串" title="算法-字符串" rel="1">算法-字符串</a>
+
         
-        <a href="#Hexo" title="Hexo" rel="1">Hexo</a>
+
+        <!-- comments start -->
         
-        <a href="#教程" title="教程" rel="2">教程</a>
-        
-        <a href="#Linux" title="Linux" rel="2">Linux</a>
-        
+        <!-- comments end -->
+        <hr>
+
       </div>
 
-      <!-- 标签列表 -->
-      
-      <div class="one-tag-list">
-        <span class="fa fa-tag listing-seperator" id="算法-字符串">
-          <span class="tag-text">算法-字符串</span>
-        </span>
-        
-        <div class="post-preview">
-          <a href="/posts/83fb8ed6/">
-            <h2 class="post-title">
-              最小表示法
-              <!--  -->
-              <!-- --  -->
-              <!--  -->
-            </h2>
-            
-            <h3 class="post-subtitle">
-              用于快速寻找循环同构字符串集中字典序最小的字符串
-            </h3>
-            
-          </a>
-        </div>
-        <hr>
-        
-      </div>
-      
-      <div class="one-tag-list">
-        <span class="fa fa-tag listing-seperator" id="Hexo">
-          <span class="tag-text">Hexo</span>
-        </span>
-        
-        <div class="post-preview">
-          <a href="/posts/9f560b87/">
-            <h2 class="post-title">
-              Hexo + Github Actions + Github图床建站过程记录
-              <!--  -->
-              <!-- --  -->
-              <!--  -->
-            </h2>
-            
-            <h3 class="post-subtitle">
-              利用仓库分支和Github Actions实现Hexo博客的方便管理，同时使用Github仓库作为图床以供文章图片使用。
-            </h3>
-            
-          </a>
-        </div>
-        <hr>
-        
-      </div>
-      
-      <div class="one-tag-list">
-        <span class="fa fa-tag listing-seperator" id="教程">
-          <span class="tag-text">教程</span>
-        </span>
-        
-        <div class="post-preview">
-          <a href="/posts/9f560b87/">
-            <h2 class="post-title">
-              Hexo + Github Actions + Github图床建站过程记录
-              <!--  -->
-              <!-- --  -->
-              <!--  -->
-            </h2>
-            
-            <h3 class="post-subtitle">
-              利用仓库分支和Github Actions实现Hexo博客的方便管理，同时使用Github仓库作为图床以供文章图片使用。
-            </h3>
-            
-          </a>
-        </div>
-        <hr>
-        
-        <div class="post-preview">
-          <a href="/posts/6f3d798f/">
-            <h2 class="post-title">
-              GPU服务器管理常见问题
-              <!--  -->
-              <!-- --  -->
-              <!--  -->
-            </h2>
-            
-            <h3 class="post-subtitle">
-              该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录
-            </h3>
-            
-          </a>
-        </div>
-        <hr>
-        
-      </div>
-      
-      <div class="one-tag-list">
-        <span class="fa fa-tag listing-seperator" id="Linux">
-          <span class="tag-text">Linux</span>
-        </span>
-        
-        <div class="post-preview">
-          <a href="/posts/6f3d798f/">
-            <h2 class="post-title">
-              GPU服务器管理常见问题
-              <!--  -->
-              <!-- --  -->
-              <!--  -->
-            </h2>
-            
-            <h3 class="post-subtitle">
-              该文对研究生三年管理GPU服务器期间遇到的常见问题进行记录
-            </h3>
-            
-          </a>
-        </div>
-        <hr>
-        
-        <div class="post-preview">
-          <a href="/posts/433e5440/">
-            <h2 class="post-title">
-              Ubuntu 20.04 Server + Virtual Box安装过程问题记录与解决
-              <!--  -->
-              <!-- --  -->
-              <!--  -->
-            </h2>
-            
-            <h3 class="post-subtitle">
-              记录使用virtual box安装ubuntu 20.04 server过程中发生的问题及解决过程
-            </h3>
-            
-          </a>
-        </div>
-        <hr>
-        
-      </div>
-      
+      <!-- Catalog: Tabe of Content -->
+      <!-- Table of Contents -->
 
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">最小表示法</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">数学定义</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">算法核心</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">算法步骤</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">代码</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+
+
+      <!-- Sidebar Container -->
+      <div class="
+                col-lg-8 col-lg-offset-1
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+        <!-- Featured Tags -->
+        
+        <section>
+          <!-- no hr -->
+          <h5>
+            <a href="/tags/">FEATURED TAGS</a>
+          </h5>
+          <div class="tags">
+            
+            <a class="tag" href="/tags/#算法-字符串" title="算法-字符串">算法-字符串</a>
+            
+          </div>
+        </section>
+        
+
+        <!-- Friends Blog -->
+        
+      </div>
     </div>
   </div>
-</div>
+</article>
+
+
+
+<!-- anchorjs start -->
+<!-- async load function -->
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script type="text/javascript">
+  // async load function
+  function async (u, c) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) {
+      o.addEventListener('load', function(e) {
+        c(null, e);
+      }, false);
+    }
+    s.parentNode.insertBefore(o, s);
+  };
+</script>
+<script type="text/javascript">
+  //anchor-js, Doc:http://bryanbraun.github.io/anchorjs/
+  async ("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js", function() {
+    anchors.options = {
+      visible: 'hover',
+      placement: 'left',
+      // icon: 'ℬ'
+      icon: '❡'
+    };
+    anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+  });
+</script>
+<style>
+  /* place left on bigger screen */
+  @media all and (min-width: 800px) {
+    .anchorjs-link {
+      position: absolute;
+      left: -0.75em;
+      font-size: 1.1em;
+      margin-top: -0.1em;
+    }
+  }
+</style>
+
+<!-- anchorjs end -->
+
 
 
 		<!-- Footer (contains ThemeColor、viewer) -->
