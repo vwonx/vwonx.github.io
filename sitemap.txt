@@ -3,7 +3,7 @@ http://vwonx.github.io/posts/83fb8ed6/
 http://vwonx.github.io/about/index.html
 http://vwonx.github.io/tags/index.html
 http://vwonx.github.io/categories/index.html
-http://vwonx.github.io/archive/index.html
+http://vwonx.github.io/archives/index.html
 http://vwonx.github.io/posts/6f3d798f/
 http://vwonx.github.io/posts/433e5440/
 http://vwonx.github.io/posts/9f560b87/
