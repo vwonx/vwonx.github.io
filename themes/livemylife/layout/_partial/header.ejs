@@ -124,7 +124,7 @@
           </div>
           <% } else { %>
           <div class="site-heading">
-            <% if (page.base == 'archives/') { page.title = 'Archives'; } %>
+            <% if (page.base.startsWith('archives/')) { page.title = 'Archives'; } %>
             <h1><%= page.title || config.title %></h1>
             <!--<hr class="small">-->
             <span class="subheading"><%= page.description || config.subtitle || "" %></span>

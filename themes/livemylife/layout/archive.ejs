@@ -8,40 +8,98 @@ layout: page
       <!-- 归档列表 -->
 
       <%
-        var years = {};
+        var postsMap = {};
+        var urlYear = page.year;
+        var urlMonth = page.month;
+
         site.posts.sort('date').reverse().forEach(function(post){
-          var year = post.date.year()
-          if(years[year]===undefined){
-            years[year] = [];
+          var year = post.date.year();
+          var month = post.date.month() + 1;
+          if(postsMap[year]===undefined){
+            postsMap[year] = [];
+            postsMap[year][month] = [];
           }
-          years[year].push(post);
+          if(postsMap[year][month]===undefined){
+            postsMap[year][month] = [];
+          }
+          postsMap[year][month].push(post);
         });
       %>
 
       <!-- 归档列表 -->
-      <% Object.keys(years).reverse().forEach(function(year){  %>
-      <div class="one-tag-list">
-        <span class="fa fa-calendar-times-o listing-seperator" id="<%= year %>">
-          <span class="tag-text"><%= year %></span>
-        </span>
-        <ul>
-          <% years[year].map(function(post){  %>
-          <li>
-            <%= post.date.format('MM-DD') %>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="<%- config.root %><%- post.path %>" style="color: #0085a1">
-              <span>
-                <%- post.title || "Untitled" %>
-                <!-- <% if(post.lang !== 'en'){ %> -->
-                <!-- -- <%- post.lang %> -->
-                <!-- <% } %> -->
-              </span>
-            </a>
-          </li>
-          <% }) %>
-        </ul>
-      </div>
-      <% }) %>
+      <% if(urlYear===undefined && urlMonth===undefined) { %>
+        <% Object.keys(postsMap).reverse().forEach(function(year){  %>
+        <div class="one-tag-list">
+          <span class="fa fa-calendar-times-o listing-seperator" id="<%= year %>">
+            <span class="tag-text"><%= year %></span>
+          </span>
+          <ul>
+            <% Object.keys(postsMap[year]).reverse().forEach(function(month){  %>
+              <% postsMap[year][month].forEach(function(post){  %>
+                  <li>
+                    <%= post.date.format('MM-DD') %>
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="<%- config.root %><%- post.path %>" style="color: #0085a1">
+                      <span>
+                        <%- post.title || "Untitled" %>
+                        <!-- <% if(post.lang !== 'en'){ %> -->
+                        <!-- -- <%- post.lang %> -->
+                        <!-- <% } %> -->
+                      </span>
+                    </a>
+                  </li>
+              <% }) %>
+            <% }) %>
+          </ul>
+        </div>
+        <% }) %>
+      <% }else if(urlMonth===undefined) { %>
+        <div class="one-tag-list">
+          <span class="fa fa-calendar-times-o listing-seperator" id="<%= urlYear %>">
+            <span class="tag-text"><%= urlYear %></span>
+          </span>
+          <ul>
+            <% Object.keys(postsMap[urlYear]).reverse().forEach(function(month){  %>
+              <% postsMap[urlYear][month].forEach(function(post){  %>
+                  <li>
+                    <%= post.date.format('MM-DD') %>
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <a href="<%- config.root %><%- post.path %>" style="color: #0085a1">
+                      <span>
+                        <%- post.title || "Untitled" %>
+                        <!-- <% if(post.lang !== 'en'){ %> -->
+                        <!-- -- <%- post.lang %> -->
+                        <!-- <% } %> -->
+                      </span>
+                    </a>
+                  </li>
+              <% }) %>
+            <% }) %>
+          </ul>
+        </div>
+      <% }else{ %>
+        <div class="one-tag-list">
+          <span class="fa fa-calendar-times-o listing-seperator" id="<%= urlYear %>">
+            <span class="tag-text"><%= urlYear %>-<%= urlMonth %></span>
+          </span>
+          <ul>
+            <% postsMap[urlYear][urlMonth].forEach(function(post){  %>
+              <li>
+                <%= post.date.format('MM-DD') %>
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                <a href="<%- config.root %><%- post.path %>" style="color: #0085a1">
+                  <span>
+                    <%- post.title || "Untitled" %>
+                    <!-- <% if(post.lang !== 'en'){ %> -->
+                    <!-- -- <%- post.lang %> -->
+                    <!-- <% } %> -->
+                  </span>
+                </a>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
     </div>
   </div>
 </div>
