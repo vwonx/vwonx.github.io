@@ -25,8 +25,8 @@ date: 2022-05-05 13:45:20
 # Hexo + Github Pages 建站过程
 1. 基本的本机Git和Github绑定，如Git安装、密钥生成配置等，这类教程很多，使用任意检索网站进行搜索即可。主要就是保证仓库能够进行正常的 **pull/push** 操作，而配置密钥则可以免密码方便地进行操作。
 2. Github上建库，有两个注意点。其一仓库名需要取 **Github用户名.github.io**，这样之后可以直接使用对应的仓库名访问博客，否则需要加上二级域名 **Github用户名.github.io/仓库名** 才能访问。其二不能设置为私库，私库需要 **Github Pro** 才能设置为Github Pages。
-![1](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/1.png)
-![2](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/2.png)
+![1](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/1.png)
+![2](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/2.png)
 3. 本地创建文件夹，以blog命名为例。
 ```bash
 mkdir blog
@@ -50,13 +50,13 @@ git submodule add -b master git@github.com:jerryc127/hexo-theme-butterfly.git th
 
 # Github Actions 配置
 1. Github的账户设置中新建一个token，这个token能够使得Github Actions 获取控制仓库的权限。
-![3](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/3.png)
+![3](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/3.png)
 2. token的权限选择，只需要第一项“repo”，因为只需要仓库的控制权。之后会跳回原先token的总页面，这时能看到刚才新建的token，点击复制按钮/或进行复制（这个token离开页面后就不可见了，所以务必确认已经复制，否则要重新按步骤1进行操作）。
-![4](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/4.png)
-![5](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/5.png)
+![4](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/4.png)
+![5](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/5.png)
 3. 在博客所在的仓库设置里，将复制的token配置为Actions Secret。配置过程中所取的名字后面会用到，所以也需要记住，这里以 **ACCESS_TOKEN** 为例。
-![6](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/6.png)
-![7](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/7.png)
+![6](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/6.png)
+![7](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/7.png)
 4. 点击仓库里的Actions标签，选择Simple workflow，在生成的yml文件里，配置如下代码。代码都很简单，很容易看懂。基本上主要的行也均有注释，按照注释结合自己的实际情况进行修改。
 ```yml
 # This is a basic workflow to help you get started with Actions
@@ -122,7 +122,7 @@ jobs:
           echo "${{ steps.deploy.outputs.notify }}"
 ```
 5. 配置好了，提交。会生成一个commit，之后会发现脚本开始执行了。但是博客还是不能访问，这是由于没有配置Github Pages使用哪个分支，默认是master，所以无法部署。在仓库的设置里进行更改后，就能正常访问博客了。至此，博客建站完成。**后续只需要在本地仓库写博客，然后推送master分支，即能自动在gh-pages分支生成静态文件，进行博客部署操作。**
-![8](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/8.png) 
+![8](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/8.png) 
 
 # Github图床
 写博客的过程中，不可避免的就是需要在文章里插入图片。图片虽然可以直接放在博客的仓库里，但是随着图片数量的增加，会明显增大博客仓库的体积，也不易于管理。
@@ -142,9 +142,9 @@ jobs:
 1. Github上建立一个仓库，本地不用建库。注意库必须是public，否则不能访问。
 2. 建立一个token（见Github Actions 配置中的第1步至第3步）。
 3. 在PicGo中进行配置，按照选项名字进行配置就行。这里的指定存储路径就是就是指定图片上传后放在哪个子文件夹里，如：配置写“a/”，则上传图片后会保存在仓库的a文件夹下。
-![9](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/website-building-process-record/9.png)
+![9](https://raw.githubusercontent.com/vwonx/blog-imgs/master/website-building-process-record/9.png)
 
-## 配置CDN加速
+## 配置CDN加速（已无法使用）
 其实就是上图选项中的自定义域名，配置为 https://cdn.jsdelivr.net/gh/Github用户名/图片仓库名 。
 
 ## 图片压缩

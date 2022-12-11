@@ -77,7 +77,7 @@ network:
 
 ## 问题定位
 这个问题定位花了比较多的时间，网上一些博客说需要换网卡的MAC地址。但这个显然不行，因为现在版本的virtual box对虚拟机克隆的时候会自动随机分配一个MAC地址。为了验证这个想法，也进行了实验。结果果然如预料一般。那么显然DHCP协议分配ip的时候并不是看MAC地址，那么会不会是以其他的编码作为id呢？抱着这个想法在外网上查找了一番后，见到了如下的一种[说法](https://forums.virtualbox.org/viewtopic.php?f=6&t=100850#p489404)：
-![1](https://cdn.jsdelivr.net/gh/vwonx/blog-imgs/ubuntu-vb-problems-record/1.png)
+![1](https://raw.githubusercontent.com/vwonx/blog-imgs/master/ubuntu-vb-problems-record/1.png)
 他指出除了MAC地址外，DUID也被用作DHCP的唯一识别id。主要是应对当下MAC地址随机趋势和一些个人隐私安全问题。而Linux系统有些使用machine id作为DUID。看到这里，就明白为什么重新随机MAC地址也无法改变IP地址了。
 
 ## 问题解决方法 
